@@ -1,9 +1,7 @@
 FROM python:3.6
+ENV PYTHONUNBUFFERED 1
+RUN mkdir /ng
 WORKDIR /ng
-COPY requirements.txt /ng/
-RUN pip install -r /ng/requirements.txt
-COPY . /ng
-EXPOSE 8000
-STOPSIGNAL SIGINT
-RUN chmod +x ./entrypoint.sh
-ENTRYPOINT ["./entrypoint.sh"]
+ADD requirements.txt /ng/
+RUN pip install -r requirements.txt
+ADD . /ng

@@ -14,6 +14,7 @@ class MoviesList(APIView):
             title = data['title']
             if Movie.checkIfExists(title) == False:
                 movie_details = Movie.getMovieDetails(title)
+                serializer.save(data=movie_details)
                 return Response(movie_details)
             #else
             #result = serializer.save(movie_details)
