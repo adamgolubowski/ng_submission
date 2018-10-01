@@ -1,4 +1,7 @@
+import requests
 from django.db import models
+from django.conf import settings
+import ast
 
 class Movie(models.Model):
     title = models.TextField()
@@ -13,6 +16,13 @@ class Movie(models.Model):
     plot = models.TextField(null=True, blank=True)
 
     @classmethod
-    def checkIfExists(cls, validated_data):
-        match = cls.objects.filter(title = validated_data.get('title')).exists()
+    def checkIfExists(cls, title):
+        match = cls.objects.filter(title = title).exists()
         return(match)
+
+    @classmethod
+    def getMovieDetails(cls, title):
+        payload = {'apikey': settings.API_KEY,
+                    't': title}
+        response = requests.get('http://www.omdbapi.com/', params=payload)
+        return(ast.literal_eval(response.text))

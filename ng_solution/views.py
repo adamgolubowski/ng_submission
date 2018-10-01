@@ -11,5 +11,11 @@ class MoviesList(APIView):
         serializer = MovieSerializer(data = request.data)
         if serializer.is_valid():
             data = serializer.data
-            return Response({'message': 'test get {0}'.format(data)})
+            title = data['title']
+            if Movie.checkIfExists(title) == False:
+                movie_details = Movie.getMovieDetails(title)
+                return Response(movie_details)
+            #else
+            #result = serializer.save(movie_details)
+            #return Response({'message': ' {0}'.format(result)})
         return Response({'message': serializer.errors}, status=400)
