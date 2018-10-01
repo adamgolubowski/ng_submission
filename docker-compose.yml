@@ -1,0 +1,12 @@
+version: '3'
+services:
+    backend:
+        container_name: ng_server
+        build:
+          context: .
+          dockerfile: Dockerfile
+        image: ng_solution
+        stdin_open: true
+        tty: true
+        ports:
+            - "8000:8000"
