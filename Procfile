@@ -1,0 +1,1 @@
+web: sh /ng/entrypoint.sh
