@@ -1,1 +1,1 @@
-web: sh /ng/entrypoint.sh
+web: sh ./entrypoint.sh
