@@ -1,22 +1,44 @@
-from ng_solution.models import Movie
-from ng_solution.serializers import MovieSerializer
+from ng_solution.models import Movie, Comment
+from ng_solution.serializers import MovieSerializer, CommentSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
 class MoviesList(APIView):
     def get(self, request):
-        return Response({'message': 'test GET'})
+        movies = Movie.objects.all()
+        serializer = MovieSerializer(movies, many=True)
+        return Response(serializer.data)
 
     def post(self, request):
-        serializer = MovieSerializer(data = request.data)
+        serializer = MovieSerializer(data=request.data)
         if serializer.is_valid():
             data = serializer.data
             title = data['title']
-            if Movie.checkIfExists(title) == False:
-                movie_details = Movie.getMovieDetails(title)
-                serializer.save(data=movie_details)
-                return Response(movie_details)
+            movie_details = Movie.getMovieDetails(title)
+            if 'Error' not in movie_details and Movie.checkIfExists(title) == False:
+                serializer.save(movie_details)
+            return Response(movie_details)
             #else
             #result = serializer.save(movie_details)
             #return Response({'message': ' {0}'.format(result)})
-        return Response({'message': serializer.errors}, status=400)
+        else:
+            return Response({'message': serializer.errors}, status=400)
+
+class CommentsList(APIView):
+
+    def get(self, request):
+        import pdb; pdb.set_trace()
+        if movieid == None:
+            comments = Comment.objects.all()
+        else:
+            comments = Comment.object.filter(movie=movieid)
+        serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        serializer = CommentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        else:
+            return Response({'message': serializer.errors}, status=400)

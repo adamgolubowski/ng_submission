@@ -26,3 +26,7 @@ class Movie(models.Model):
                     't': title}
         response = requests.get('http://www.omdbapi.com/', params=payload)
         return(ast.literal_eval(response.text))
+
+class Comment(models.Model):
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    body = models.TextField(null=True, blank=True)

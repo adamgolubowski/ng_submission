@@ -5,3 +5,4 @@ WORKDIR /ng
 ADD requirements.txt /ng/
 RUN pip install -r requirements.txt
 ADD . /ng
+RUN ["chmod", "+x", "/ng/entrypoint.sh"]
