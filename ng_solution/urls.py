@@ -7,5 +7,4 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^movies/$',views.MoviesList.as_view(),name='movies'),
     url(r'^comments/$',views.CommentsList.as_view(),name='comments'),
-    url(r'^comments/(?P<movieid>[0-9]+)',views.CommentsQuery.as_view(),name='comments_query'),
 ]

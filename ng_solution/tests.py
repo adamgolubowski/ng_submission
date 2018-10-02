@@ -116,5 +116,7 @@ class ListCommentTestCase(APITestCase):
     def test_select_comment(self):
         payload = {'movieid': self.m2.id}
         response = self.client.get(self.url,data=payload)
-        #import pdb; pdb.set_trace()
         self.assertEqual(response.status_code,STATUS_SUCCESS)
+        self.assertEqual(len(response.data),1)
+        self.assertEqual(response.data[0]['movie'],self.m2.id)
+        self.assertEqual(response.data[0]['body'],'Love this movie')

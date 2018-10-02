@@ -27,7 +27,11 @@ class MoviesList(APIView):
 class CommentsList(APIView):
 
     def get(self, request):
-        comments = Comment.objects.all()
+        movieid = request.GET.get('movieid')
+        if movieid == None:
+            comments = Comment.objects.all()
+        else:
+            comments = Comment.objects.filter(movie=int(movieid))
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data)
 
@@ -38,7 +42,3 @@ class CommentsList(APIView):
             return Response(serializer.data)
         else:
             return Response({'message': serializer.errors}, status=400)
-
-class CommentsQuery(APIView):
-    def get(self,request,movieid):
-        return Response(status=200)
