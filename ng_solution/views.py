@@ -27,11 +27,7 @@ class MoviesList(APIView):
 class CommentsList(APIView):
 
     def get(self, request):
-        import pdb; pdb.set_trace()
-        if movieid == None:
-            comments = Comment.objects.all()
-        else:
-            comments = Comment.object.filter(movie=movieid)
+        comments = Comment.objects.all()
         serializer = CommentSerializer(comments, many=True)
         return Response(serializer.data)
 
@@ -42,3 +38,7 @@ class CommentsList(APIView):
             return Response(serializer.data)
         else:
             return Response({'message': serializer.errors}, status=400)
+
+class CommentsQuery(APIView):
+    def get(self,request,movieid):
+        return Response(status=200)

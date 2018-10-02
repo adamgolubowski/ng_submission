@@ -93,15 +93,17 @@ class PostCommentTestCase(APITestCase):
         response = self.client.post(self.url,data,format='json')
         self.assertEqual(response.status_code,STATUS_ERROR)
 
+
 class ListCommentTestCase(APITestCase):
     def setUp(self):
-        self.url = '/comments'
+        self.url = '/comments/'
         self.m1 = Movie.objects.create(title='Call Me By Your Name',year=2017)
         self.m2 = Movie.objects.create(title='Lady Bird',year=2017)
         self.c1 = Comment.objects.create(movie=self.m1,body='Great movie')
         self.c2 = Comment.objects.create(movie=self.m1,body='Awesome movie')
         self.c3 = Comment.objects.create(movie=self.m2,body='Love this movie')
 
+  
     def test_list_comments(self):
         response = self.client.get(self.url)
         self.assertEqual(response.status_code,STATUS_SUCCESS)
@@ -112,6 +114,7 @@ class ListCommentTestCase(APITestCase):
         self.assertEqual(response.data[1]['body'],'Awesome movie')
 
     def test_select_comment(self):
-        payload = {'movie': self.m2.id}
-        response = self.client.get(self.url,params=payload)
-        import pdb; pdb.set_trace()
+        payload = {'movieid': self.m2.id}
+        response = self.client.get(self.url,data=payload)
+        #import pdb; pdb.set_trace()
+        self.assertEqual(response.status_code,STATUS_SUCCESS)
